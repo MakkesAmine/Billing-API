@@ -3,9 +3,9 @@ package tn.esprit.facturation.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import tn.esprit.facturation.entities.Facture;
-import tn.esprit.facturation.entities.LigneFacture;
-import tn.esprit.facturation.repositories.FactureRepository;
+import tn.esprit.facturation.entities.*;
+import tn.esprit.facturation.repositories.*;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,13 +13,22 @@ import java.util.List;
 @Service
 public class FactureServiceImpl implements FactureService {
     
-    private FactureRepository factureRepository;
+    private final FactureRepository factureRepository;
+    private final ClientRepository clientRepository;
     @Override
     public Facture create(Facture facture) {
         if (facture.getLignes()==null || facture.getLignes().isEmpty()) {
             throw new RuntimeException("La facture doit contenir au moins une ligne");
         }
-        // Calcul
+        if (facture.getClient()==null || facture.getClient().getId()==null) {
+            throw new RuntimeException("Le client est obligatoire ");
+        }
+
+        Long clientId = facture.getClient().getId();
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new RuntimeException("Le client n'existe pas "));
+        facture.setClient(client);
+
         double totalHT=0;
         double totalTVA=0;
         for (LigneFacture ligne : facture.getLignes()){
@@ -32,13 +41,13 @@ public class FactureServiceImpl implements FactureService {
         facture.setTotalHT(totalHT);
         facture.setTotalTVA(totalTVA);
         facture.setTotalTTC(totalHT+totalTVA);
-
+        facture.setDate(LocalDate.now());
         return factureRepository.save(facture);
         
     }
 
     @Override
-    public List<Facture> findAll() {
+    public List<Facture> allFactures() {
         return factureRepository.findAll();
     }
 

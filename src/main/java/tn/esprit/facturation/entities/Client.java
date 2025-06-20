@@ -1,13 +1,13 @@
 package tn.esprit.facturation.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 
-import java.io.Serializable;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,11 +29,12 @@ public class Client {
     String email;
 
     @NotBlank(message=" numéro SIRET est obligatoire  ")
-            @Pattern(regexp="\\d{14}" ,message=" SIRET doit contenir 14 chiffres  .")
+    @Pattern(regexp="\\d{14}" ,message=" SIRET doit contenir 14 chiffres  .")
     String siret;
 
     LocalDate dateCreation;
     @OneToMany(mappedBy="client", cascade=CascadeType.ALL)
+    @JsonIgnore
     List<Facture> factures;
 
     public Long getId() {

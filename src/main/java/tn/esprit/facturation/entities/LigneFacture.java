@@ -1,5 +1,7 @@
 package tn.esprit.facturation.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -23,10 +25,10 @@ public class LigneFacture {
     int qte;
     double prixUnitHT;
     @Enumerated(EnumType.STRING)
-            @NonNull
     TauxTVA tauxTVA;
 
     @ManyToOne
+    @JsonBackReference
     Facture facture;
 
     public Long getId() {

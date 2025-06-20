@@ -1,6 +1,9 @@
 package tn.esprit.facturation.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -20,7 +23,9 @@ public class Facture {
     LocalDate date;
     @ManyToOne
     Client client;
+    @Valid
     @OneToMany(mappedBy = "facture", cascade = CascadeType.ALL)
+    @JsonManagedReference
     List<LigneFacture> lignes;
     Double totalHT;
     Double totalTVA;

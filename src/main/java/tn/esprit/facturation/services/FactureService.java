@@ -8,6 +8,6 @@ import java.util.List;
 public interface FactureService {
     Facture create(Facture facture);
     Facture findById(Long id);
-    List<Facture> findAll();
+    List<Facture> allFactures();
     List<Facture> search(Long clientId, LocalDate date);
 }
