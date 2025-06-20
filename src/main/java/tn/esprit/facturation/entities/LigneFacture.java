@@ -79,3 +79,4 @@ public class LigneFacture {
         this.tauxTVA = tauxTVA;
     }
 }
+

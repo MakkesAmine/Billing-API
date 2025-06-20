@@ -11,3 +11,4 @@ public interface FactureService {
     List<Facture> allFactures();
     List<Facture> search(Long clientId, LocalDate date);
 }
+

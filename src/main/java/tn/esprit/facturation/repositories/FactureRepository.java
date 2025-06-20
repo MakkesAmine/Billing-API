@@ -13,3 +13,4 @@ public interface FactureRepository extends JpaRepository<Facture, Long> {
     List<Facture> findByClientId(Long clientId);
     List<Facture> findByDate(LocalDate date);
 }
+

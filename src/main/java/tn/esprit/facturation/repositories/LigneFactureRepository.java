@@ -9,3 +9,4 @@ import tn.esprit.facturation.entities.LigneFacture;
 public interface LigneFactureRepository extends JpaRepository<LigneFacture, Long> {
 
 }
+
